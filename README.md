@@ -9,3 +9,4 @@ Switch benchmark scripts to be used on L4S
 ## Usage
 
 `./benchmark_switch.sh [--cbench] [--cpower] [--gbench] [--gpower] [--iops <disk>]`
+
