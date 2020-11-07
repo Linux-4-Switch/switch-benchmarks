@@ -95,9 +95,18 @@ gpu_power_avg() {
 	echo "1" | sudo tee "/sys/devices/pwm-fan/temp_control"
 }
 
-usage() { echo "Usage: $0 [--cbench] [--cpower] [--gbench] [--gpower]" 1>&2; exit 1; }
+iops() {
+	if [[ ! -e /dev/$disk ]]; then
+		echo "Disk couldn't be found in /dev."
+		exit 1
+	fi
 
-parse_opt=`getopt --long cbench,cpower,gbench,gpower \
+	iostat -d "$disk" | grep "$disk" | awk '{ print $2; }'
+}
+
+usage() { echo "Usage: $0 [--cbench] [--cpower] [--gbench] [--gpower] [--iops <disk>]" 1>&2; exit 1; }
+
+parse_opt=`getopt --long 'cbench,cpower,gbench,gpower,iops:' \
 	--name "$(basename "$0")" \
 	--options "" \
 	-- "$@"`
@@ -116,6 +125,8 @@ while true; do
 			gpu_bench_avg; shift ;;
 		--gpower)
 			gpu_power_avg; shift ;;
+		--iops)
+			shift; disk="$1"; iops; shift ;;
 		--)
 			shift; break ;;
 		*)
