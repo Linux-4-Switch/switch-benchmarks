@@ -2,5 +2,10 @@
 
 Switch benchmark scripts to be used on L4S
 
+## Requirements
 
-**Note:** its pretty empty here for now
+`sudo apt-get install sysstat vkmark sysbench`
+
+## Usage
+
+`./benchmark_switch.sh [--cbench] [--cpower] [--gbench] [--gpower] [--iops <disk>]`
